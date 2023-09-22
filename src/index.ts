@@ -1,8 +1,9 @@
 // Importamos Elysia
+import swagger from "@elysiajs/swagger";
 import { Elysia, t } from "elysia";
 
 // Declaramos la aplicación, el puerto y un id inicial
-const app = new Elysia();
+const app = new Elysia().use(swagger({ path: '/swagger' }));
 const port = 3000;
 let id = 1;
 
@@ -24,11 +25,11 @@ app
 
 // Obtener todos los usuarios
 app
-  .get('/users', () => Users);
+  .get('/users', () => ({users: Users}));
 
 // Obtener usuario según ID
 app
-  .get('/users/:id', ({ params: { id } }) => Users.find(user => user.id.toString() == id) || {});
+  .get('/users/:id', ({ params: { id } }) => ({ user: Users.find(user => user.id.toString() == id) || {} }));
 
 // Crear usuario
 app
@@ -38,7 +39,7 @@ app
       name: body.name,
       email: body.email,
     })
-    return body
+    return { new_user: body }
   }, {
     body: t.Object({
       name: t.String(),
@@ -52,7 +53,7 @@ app
     const user = Users[Users.findIndex(user => user.id.toString() == id)];
     user.name = body.name;
     user.email = body.email;
-    return user
+    return { user }
   }, {
     body: t.Object({
       name: t.String(),
