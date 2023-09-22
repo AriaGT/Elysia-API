@@ -1,15 +1,10 @@
-# Elysia with Bun runtime
+# API CRUD para usuarios básica en Elysia con Bun runtine
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
 
 ## Development
-To start the development server run:
+Para iniciar el servidor de desarrollo ejecute:
 ```bash
 bun run dev
 ```
 
-Open http://localhost:3000/ with your browser to see the result.
+Abra http://localhost:3000/ con su navegador para ver el resultado.

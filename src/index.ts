@@ -12,6 +12,16 @@ type User = { id: Number; name: String; email: String }
 // Creamos la lista de usuarios
 let Users: User[] = [];
 
+// Configuramos la ruta principal de la API para revisar el estado de la misma
+app
+  .state('version', 1)
+  .decorate('getDate', () => Date.now())
+  .get('/', ({ getDate, store: { version } }) => ({
+    status: 'Online',
+    version,
+    date: getDate(),
+  }));
+
 // Obtener todos los usuarios
 app
   .get('/users', () => Users);
