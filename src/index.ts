@@ -1,18 +1,13 @@
-// Importamos Elysia
-import swagger from "@elysiajs/swagger";
+// Importamos Elysia y Prisma
 import { Elysia, t } from "elysia";
+import { PrismaClient } from "@prisma/client";
+import swagger from "@elysiajs/swagger";
 import { docInfo } from './swagger.config'
 
 // Declaramos la aplicación, el puerto y un id inicial
 const app = new Elysia().use(swagger(docInfo));
+const db = new PrismaClient();
 const port = 3000;
-let id = 1;
-
-// Definimos el formato de un usuario
-type User = { id: Number; name: String; email: String }
-
-// Creamos la lista de usuarios
-let Users: User[] = [];
 
 // Configuramos la ruta principal de la API para revisar el estado de la misma
 app
@@ -31,7 +26,7 @@ app
 
 // Obtener todos los usuarios
 app
-  .get('/users', () => ({users: Users}), {
+  .get('/users', async () => ({ users: await db.user.findMany() }), {
     detail: {
       description: 'Obten una lista con todos los usuarios en la base de datos',
       tags: ['Usuarios']
@@ -40,7 +35,7 @@ app
 
 // Obtener usuario según ID
 app
-  .get('/users/:id', ({ params: { id } }) => ({ user: Users.find(user => user.id.toString() == id) || {} }), {
+  .get('/users/:id', async ({ params: { id } }) => ({ user: await db.user.findUnique({ where: { id: Number(id) } }) }), {
     detail: {
       description: 'Obten la información del usuario con el id que proporciones',
       tags: ['Usuarios']
@@ -49,12 +44,8 @@ app
 
 // Crear usuario
 app
-  .post('/users', ({ body }) => {
-    Users.push({
-      id: id++,
-      name: body.name,
-      email: body.email,
-    })
+  .post('/users', async ({ body }) => {
+    await db.user.create({ data: body })
     return { new_user: body }
   }, {
     body: t.Object({
@@ -67,18 +58,16 @@ app
     }
   });
 
-// Editar usuario
+// Editar nombre de usuario
 app
-  .patch('/users/:id', ({ params: { id }, body }) => {
-    const user = Users[Users.findIndex(user => user.id.toString() == id)];
-    user.name = body.name;
-    user.email = body.email;
+  .patch('/users/:id', async ({ params: { id }, body: { name } }) => {
+    const user = await db.user.update({
+      where: { id: Number(id) },
+      data: { name: name }
+    })
     return { user }
   }, {
-    body: t.Object({
-      name: t.String(),
-      email: t.String()
-    }),
+    body: t.Object({ name: t.String() }),
     detail: {
       description: 'Edita la información de un usuario',
       tags: ['Usuarios']
@@ -87,9 +76,8 @@ app
 
 // Eliminar usuario
 app
-  .delete('/users/:id', ({ params: {id} }) => {
-    const userIndex = Users.findIndex(user => user.id.toString() == id);
-    Users.splice(userIndex, 1)
+  .delete('/users/:id', async ({ params: {id} }) => {
+    await db.user.delete({ where: { id: Number(id) } })
     return { message: `User with id ${id} deleted successfully` };
   }, {
     detail: {
@@ -98,6 +86,6 @@ app
     }
   });
 
-// COnfiguramos el puerto un mensaje en consola
+// Configuramos el puerto un mensaje en consola
 app.listen(port)
 console.log(`🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`)

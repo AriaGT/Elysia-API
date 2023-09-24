@@ -1,5 +1,5 @@
 {
-  "name": "Elysia-API",
+  "name": "elysia-api",
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -7,10 +7,15 @@
   },
   "dependencies": {
     "@elysiajs/swagger": "^0.7.2",
-    "elysia": "latest"
+    "@prisma/client": "5.3.1",
+    "elysia": "latest",
+    "prisma": "^5.3.1"
   },
   "devDependencies": {
     "bun-types": "latest"
+  },
+  "prisma": {
+    "schema": "./src/prisma/schema.prisma"
   },
   "module": "src/index.js"
 }
