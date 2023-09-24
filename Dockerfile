@@ -1,33 +1,8 @@
-# Establecer la imagen base
-FROM debian:buster-slim
-
-# Instalar curl para poder descargar e instalar Bun
-RUN apt-get update && apt-get install -y curl && apt-get install -y unzip
-
-# Instalar Bun
-RUN curl -fsSL https://bun.sh/install | bash
-
-# Establecer la variable de entorno para la ruta de instalación de Bun
-ENV BUN_INSTALL="/root/.bun"
-ENV PATH="$BUN_INSTALL/bin:$PATH"
-
-# Crear un directorio para la aplicación
+FROM jarredsumner/bun:0.5.1
 WORKDIR /app
-
-# Copiar el archivo package.json al directorio de trabajo en el contenedor
-COPY package*.json ./
-
-# Instalar las dependencias del proyecto
+COPY package.json package.json
+COPY bun.lockb bun.lockb
 RUN bun install
-
-# Copiar el resto de los archivos del proyecto al directorio de trabajo en el contenedor
-COPY . .
-
-# Establecer la variable de entorno PORT
-ENV PORT=3000
-
-# Exponer el puerto que la aplicación usará
+COPY index.js index.js
 EXPOSE 3000
-
-# Comando para iniciar la aplicación
-CMD [ "bun", "run", "build" ]
+ENTRYPOINT ["bun", "index.js"]
