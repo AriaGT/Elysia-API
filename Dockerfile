@@ -15,16 +15,16 @@ ENV PATH="$BUN_INSTALL/bin:$PATH"
 WORKDIR /app
 
 # Copiar el archivo package.json al directorio de trabajo en el contenedor
-COPY package.json ./
+COPY package*.json ./
+
+# Copiar el resto de los archivos del proyecto al directorio de trabajo en el contenedor
+COPY . .
 
 # Instalar las dependencias del proyecto
 RUN bun install
 
 # Generar el cliente de Prisma
 RUN bun run prisma generate
-
-# Copiar el resto de los archivos del proyecto al directorio de trabajo en el contenedor
-COPY . .
 
 # Establecer la variable de entorno PORT
 ENV PORT=3000
