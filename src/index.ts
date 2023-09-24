@@ -1,6 +1,6 @@
 // Importamos Elysia y Prisma
 import { Elysia, t } from "elysia";
-import { PrismaClient } from './prisma/generated/clientPg'
+import { PrismaClient } from '@prisma/client'
 import swagger from "@elysiajs/swagger";
 import { docInfo } from './swagger.config'
 import { env } from "bun";
