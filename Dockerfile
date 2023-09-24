@@ -7,7 +7,6 @@ WORKDIR /app
 COPY package.json package.json
 COPY bun.lockb bun.lockb
 RUN bun install
-RUN npm install @prisma/client
 COPY . .
 RUN bunx prisma migrate deploy
 EXPOSE 8080
