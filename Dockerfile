@@ -2,7 +2,7 @@
 FROM debian:buster-slim
 
 # Instalar curl para poder descargar e instalar Bun
-RUN apt-get update && apt-get install -y curl && apt-get install -y unzip
+RUN apt-get update && apt-get install -y curl
 
 # Instalar Bun
 RUN curl -fsSL https://bun.sh/install | bash
@@ -19,6 +19,9 @@ COPY package.json ./
 
 # Instalar las dependencias del proyecto
 RUN bun install
+
+# Generar el cliente de Prisma
+RUN bun run prisma generate
 
 # Copiar el resto de los archivos del proyecto al directorio de trabajo en el contenedor
 COPY . .
