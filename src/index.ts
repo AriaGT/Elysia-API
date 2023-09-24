@@ -3,11 +3,12 @@ import { Elysia, t } from "elysia";
 import { PrismaClient } from "@prisma/client";
 import swagger from "@elysiajs/swagger";
 import { docInfo } from './swagger.config'
+import { env } from "bun";
 
 // Declaramos la aplicación, el puerto y un id inicial
 const app = new Elysia().use(swagger(docInfo));
 const db = new PrismaClient();
-const port = 3000;
+const port = env.PORT || 3000;
 
 // Configuramos la ruta principal de la API para revisar el estado de la misma
 app
