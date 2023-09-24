@@ -7,6 +7,7 @@ WORKDIR /app
 COPY package.json package.json
 COPY bun.lockb bun.lockb
 RUN bun install
+RUN bunx prisma generate
 COPY . .
 EXPOSE 8080
 ENTRYPOINT ["bun", "run", "build"]
