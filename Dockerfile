@@ -30,4 +30,4 @@ ENV PORT=3000
 EXPOSE 3000
 
 # Comando para iniciar la aplicación
-CMD [ "bun", "run", "dev" ]
+CMD [ "bun", "run", "build" ]
