@@ -8,4 +8,3 @@ RUN bun install
 RUN bun prisma generate
 RUN bun prisma migrate deploy
 EXPOSE 8080
-CMD ["bun", "run", "build"]
