@@ -8,6 +8,7 @@ COPY package.json /app
 COPY bun.lockb /app
 RUN bun install
 COPY . /app
-RUN bunx prisma generate && bunx prisma migrate deploy
+CMD ["bunx", "prisma", "generate"]
+CMD ["bunx", "prisma", "migrate", "deploy"]
 EXPOSE 8080
 ENTRYPOINT ["bun", "run", "build"]
