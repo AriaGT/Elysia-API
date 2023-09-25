@@ -4,10 +4,10 @@ RUN curl -fsSL https://bun.sh/install | bash
 ENV BUN_INSTALL="/root/.bun"
 ENV PATH="$BUN_INSTALL/bin:$PATH"
 WORKDIR /app
-COPY package.json package.json
-COPY bun.lockb bun.lockb
+COPY package.json /app
+COPY bun.lockb /app
 RUN bun install
-COPY . .
-RUN bunx prisma migrate deploy
+COPY . /app
 EXPOSE 8080
+RUN bun install
 ENTRYPOINT ["bun", "run", "build"]

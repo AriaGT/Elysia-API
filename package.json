@@ -2,9 +2,10 @@
   "name": "elysia-api",
   "version": "1.0.50",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "bunx prisma generate",
+    "start": "bun run src/index.ts",
     "dev": "bun run --watch src/index.ts",
-    "build": "bun run src/index.ts"
+    "build": "bun run migrate && bun run start"
   },
   "dependencies": {
     "@elysiajs/swagger": "^0.7.2",
