@@ -1,10 +1,9 @@
-FROM debian:bullseye-slim
-RUN apt-get update && apt-get install -y curl && apt-get install -y unzip
-RUN curl -fsSL https://bun.sh/install | bash
-ENV BUN_INSTALL="/root/.bun"
-ENV PATH="$BUN_INSTALL/bin:$PATH"
+FROM oven/bun
+WORKDIR /app
 COPY . .
 RUN bun install
-RUN bun prisma generate
-RUN bun prisma migrate deploy
-EXPOSE 8080
+
+ARG PORT
+EXPOSE ${PORT:-8080}
+
+CMD ["bun", "run", "build"]
