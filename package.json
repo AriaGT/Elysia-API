@@ -2,7 +2,7 @@
   "name": "elysia-api",
   "version": "1.0.50",
   "scripts": {
-    "build": "bun prisma generate && bun prisma migrate deploy && bun run src/index.ts",
+    "build": "bun run src/index.ts",
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
