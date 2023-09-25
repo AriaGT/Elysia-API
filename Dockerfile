@@ -6,6 +6,6 @@ ENV PATH="$BUN_INSTALL/bin:$PATH"
 COPY . .
 RUN bun install
 RUN bun prisma migrate deploy
+RUN bun prisma generate
 EXPOSE 8080
-CMD ["bun", "prisma", "generate"]
 CMD ["bun", "run", "build"]

@@ -1,15 +1,15 @@
-model User {
-  id    Int     @id @default(autoincrement())
-  name  String  @unique
-  email String  @unique
-}
-
 generator client {
   provider = "prisma-client-js"
-  binaryTargets = ["native", "debian-openssl-1.1.x"]
+  binaryTargets = ["native"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  email String  @unique
 }
