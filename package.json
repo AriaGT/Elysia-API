@@ -2,10 +2,8 @@
   "name": "elysia-api",
   "version": "1.0.50",
   "scripts": {
-    "migrate": "bunx prisma generate",
-    "start": "bun run src/index.ts",
-    "dev": "bun run --watch src/index.ts",
-    "build": "bun run migrate && bun run start"
+    "build": "bun run src/index.ts",
+    "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
     "@elysiajs/swagger": "^0.7.2",
