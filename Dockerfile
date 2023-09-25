@@ -5,5 +5,5 @@ ENV BUN_INSTALL="/root/.bun"
 ENV PATH="$BUN_INSTALL/bin:$PATH"
 COPY . .
 RUN bun install
-EXPOSE 8080
+EXPOSE 9000
 ENTRYPOINT ["bun", "run", "build"]
